@@ -1,0 +1,37 @@
+- var title = '收件箱';
+- var navIndex = 5;
+
+doctype html
+include components/head
+.container
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                each item in messages
+                    article.format-standard.type-post.hentry.clearfix
+                        header.clearfix
+                            h3.post-title
+                                a(href='/student/inbox/'+item.id)= item.title
+                            .post-meta.clearfix
+                                span teacher: #{item.creator_id}
+                                br
+                                span time: #{item.post_time.toLocaleString()}
+                            // end of post meta
+                        p= item.content.substr(0, 100)
+                            a.readmore-link(href='/student/inbox/'+item.id) Read more
+                #pagination
+                    a.btn.active(href='#') 1
+                    a.btn(href='#') 2
+                    a.btn(href='#') 3
+                    a.btn(href='#') Next »
+                    a.btn(href='#') Last »
+            #column
+                .subnav(style='position: fixed')
+                    h2 收件箱
+                    ul
+                        li
+                            a(href='inbox') 信息列表
+            .clear
+    include ../components/footer

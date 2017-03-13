@@ -1,0 +1,81 @@
+style.
+    #topnav li {
+        position: relative;
+    }
+    #submenu-list:hover .submenu-container {
+        display: inline-block;
+    }
+    .submenu-container {
+        position: absolute;
+        display: none;
+        top: 150%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+    }
+    .submenu {
+        display: block;
+        position: relative;
+        padding: 15px 0;
+    }
+    #header li.active .submenu {
+        color: #fff;
+        border-bottom-color: #2D3134;
+    }
+    #header li .submenu:hover {
+        color: #02ACEE;
+        background-color: #2D3134;
+        border-bottom-color: #02ACEE;
+    }
+.wrapper.col1
+    #header
+        #logo
+            h1
+                a(href='#') 软件工程教务系统
+            p Software Enginnering Education System
+        #topnav
+            nav
+                ul
+                    if userType == 'A'
+                        li
+                                a(href='/admin/websiteGuide', style='font-size: 20px;') 网站指南
+                        li.active
+                                a(href='/bbs', style='font-size: 20px;') 论坛管理
+                        li.last
+                                a(href='/admin/visitorFeedback', style='font-size: 20px;') 游客反馈
+
+                    else if userType == 'S'
+                        li
+                            a(href='/student/classIntroduction', style='font-size: 20px;') 课程介绍
+                        li#submenu-list(class=(navIndex==2) ? 'active': '')
+                            a(href='#', style='font-size: 20px;') 教师介绍
+                            .submenu-container
+                                each item in teachers
+                                    a.submenu(href='/student/teacherIntroduction/'+item.id) #{item.name}老师
+                        li
+                            a(href='/student/courseResource', style='font-size: 20px;') 课件资料
+                        li
+                            a(href='/student/homework', style='font-size: 20px;') 作业模块
+                        li.active
+                            a(href='/bbs', style='font-size: 20px;') 论坛
+                        li.last
+                            a(href='/student/inbox', style='font-size: 20px;') 收件
+                            
+                    else if userType == 'T'
+                        li
+                            a(href='/teacher/classIntroduction', style='font-size: 20px;') 课程介绍
+                        li
+                            a(href='/teacher/teacherIntroduction', style='font-size: 20px;') 教师介绍
+                        li
+                            a(href='/teacher/courseResource', style='font-size: 20px;') 课件资料
+                        li#submenu-list(class=(navIndex==2) ? 'active': '')
+                            a(href='#', style='font-size: 20px;') 作业模块
+                            .submenu-container
+                                each item in classes
+                                    a.submenu(href='/teacher/homework/'+item.id+'/list')= item.section
+                        li.active
+                            a(href='/bbs', style='font-size: 20px;') 论坛
+                        li.last
+                            a(href='/teacher/others_info', style='font-size: 20px;') 其他
+        br.clear

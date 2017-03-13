@@ -1,0 +1,91 @@
+- var title = '其他功能';
+- var navIndex = 6;
+
+doctype html
+include components/head
+style.
+    a:hover {
+        text-decoration: none!important;
+    }
+.container
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                h1 链接列表
+                table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                    thead
+                        tr
+                            th 链接名称
+                            th 链接网址
+                            th 操作
+                    tbody
+                        each item, index in links
+                            tr.link-info(class=(index%2 == 0) ? 'dark' : 'light')
+                                td.linkid(style='display: none;')= item.id
+                                td= item.content
+                                td= item.url
+                                td
+                                    input.del(type='button', value='删除')
+                                    input.updatename(type='button', value='修改名称')
+                                    input.updatelink(type='button', value='修改网址')
+                h1 添加友情链接
+                form
+                    p
+                        label(for='content')
+                            small 链接名称
+                        input(type='text', name='content', size='75%')
+                    p
+                        label(for='url')
+                            small 链接网址
+                        input(type='text', name='url', size='75%')
+                    fieldset
+                        p
+                            input#submit(type='button', value='添加友情链接')
+            #column
+                .subnav(style='position: fixed')
+                    h2 其他
+                    ul
+                        li
+                            a(href='others_info') 信息发布
+                        li
+                            a(href='others_link') 编辑友情链接
+            .clear
+            <script src="/jquery-3.1.1.js"></script> 
+            script.
+                $('#submit').click(function() {
+                    var content = $('[name="content"]').val();
+                    var url = $('[name="url"]').val();
+                    if (content == '' || url == '') {
+                        alert('请填写链接信息！');
+                        return;
+                    } else {
+                        $.post('others_link', {
+                            op: 'add',
+                            content: content,
+                            url: url
+                        }, function(data) {
+                            alert(data.msg)
+                            if (data.code == 1) 
+                                window.location.reload();
+                        })
+                    }
+                });
+
+                $('.link-info').each(function(i, e){
+                    var id = parseInt($(e).find('.linkid').html());
+                    console.log(id)
+                    $(e).find('.del').click(function() {
+                        $.post('others_link', {
+                            op: 'del',
+                            id: id
+                        }, function(data) {
+                            alert(data.msg)
+                            if (data.code == 1) 
+                                window.location.reload();
+                        })
+                    })
+                })
+
+    include ../components/footer

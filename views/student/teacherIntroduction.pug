@@ -1,0 +1,47 @@
+- var title = '教师介绍';
+- var navIndex = 2;
+
+doctype html
+include components/head
+div
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                div#intro.item
+                    h1(id="总体介绍") #{name}老师总体介绍
+                    div.data !{intro}
+                div#style.item
+                    h1(id="教学风格") 教学风格
+                    div.data !{style}
+                div#previous.item
+                    h1(id="以往教学") 以往教学
+                    div.data !{previous}
+                div#research.item
+                    h1(id="科研成果") 科研成果
+                    div.data !{research}
+                div#book.item
+                    h1(id="出版书籍") 出版书籍
+                    div.data !{book}
+                div#honor.item
+                    h1(id="所获荣誉") 所获荣誉
+                    div.data !{honor}
+            #column
+                .subnav(style='position: fixed;')
+                    h2 课程介绍
+                    ul
+                        li
+                            a(href='#总体介绍') 总体介绍
+                        li
+                            a(href='#教学风格') 教学风格
+                        li
+                            a(href='#以往教学') 以往教学
+                        li
+                            a(href='#科研成果') 科研成果
+                        li
+                            a(href='#出版书籍') 出版书籍
+                        li
+                            a(href='#所获荣誉') 所获荣誉
+            .clear
+    include ../components/footer

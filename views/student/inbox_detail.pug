@@ -1,0 +1,31 @@
+doctype html
+head
+    title 软件工程教务系统
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    meta(http-equiv='imagetoolbar', content='no')
+    link(rel='stylesheet', href='../../styles/layout.css', type='text/css')
+    script(type='text/javascript', src='../../scripts/jquery-1.4.1.min.js')
+    script(type='text/javascript', src='../../scripts/jquery.slidepanel.setup.js')
+    script(type='text/javascript', src='../../scripts/jquery.cycle.min.js')
+    script(type='text/javascript', src='../../scripts/jquery.cycle.setup.js')
+
+.container
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                h1 #{message.title}
+                .post-meta.clearfix
+                    span.type #{message.creator_id}
+                    span.comments #{message.post_time.toLocaleString()}
+                p
+                    | #{message.content}
+            #column
+                .subnav(style='position: fixed')
+                    h2 收件箱
+                    ul
+                        li
+                            a(href='../inbox') 信息列表
+            .clear
+    include ../components/footer

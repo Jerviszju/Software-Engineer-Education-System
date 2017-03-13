@@ -1,0 +1,28 @@
+- var title = '游客反馈详细';
+
+doctype html
+include components/head
+.container
+    include ../components/topbar
+    include components/nav
+    
+    .wrapper.col3
+        #container
+            #content
+                article.format-standard.type-post.hentry.clearfix
+                    header.clearfix
+                        h3.post-title= feedback.title
+                        div(style='height:20px;')
+                        .post-meta.clearfix
+                            span 前端界面
+                            span ukabuer@live.vom
+                            input#submit(name='submit', type='submit', value='设为已解决')
+                    p!= feedback.content
+            #column
+                .subnav(style='position: fixed')
+                    h2 游客反馈
+                    ul
+                        li
+                            a(href='visitorFeedback') 反馈列表
+            .clear
+    include ../components/footer

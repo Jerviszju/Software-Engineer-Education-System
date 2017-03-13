@@ -1,0 +1,179 @@
+- var title = '课件资料';
+- var navIndex = 3;
+
+doctype html
+include components/head
+div
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                div.item
+                    h1(id='课件') 课件管理
+                    table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                        thead
+                            tr
+                                th 文件名称
+                                th 文件大小
+                                th 上传时间
+                                th 学生端隐藏
+                                th 游客端隐藏
+                                th 操作
+                        tbody
+                            each item, index in slides
+                                tr(class=(index%2==0)? 'light' : 'dark')
+                                    td= item.name
+                                    td #{item.size} bytes
+                                    td= item.upload_time.toLocaleString()
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        button(onclick='del('+item.id+')') 删除
+                                        button(onclick='save('+item.id+')') 保存
+                                        button(onclick='save('+item.id+')') 下载
+                    div(align='right')
+                        input.file(name="slide" type="file")
+                        input.upload(type="button" value="上传")
+
+                div.item
+                    h1(id='参考资料') 参考资料管理
+                    table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                        thead
+                            tr
+                                th 文件名称
+                                th 文件大小
+                                th 上传时间
+                                th 学生端操作
+                                th 游客端操作
+                                th 操作
+                        tbody
+                            each item, index in refmtl
+                                tr(class=(index%2==0)? 'light' : 'dark')
+                                    td= item.name
+                                    td #{item.size} bytes
+                                    td= item.upload_time.toLocaleString()
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        button(onclick='del('+item.id+')') 删除
+                                        button(onclick='save('+item.id+')') 保存
+                                        button(onclick='save('+item.id+')') 下载
+                    div(align='right')
+                        input.file(name="slide" type="file")
+                        input.upload(type="button" value="上传")
+
+                div.item
+                    h1(id='优秀作业') 优秀作业
+                    table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                        thead
+                            tr
+                                th 文件名称
+                                th 文件大小
+                                th 上传时间
+                                th 学生端操作
+                                th 游客端操作
+                                th 操作
+                        tbody
+                            each item, index in goodhomework
+                                tr(class= (index%2==0)? 'light' : 'dark')
+                                    td= item.name
+                                    td #{item.size} bytes
+                                    td= item.upload_time.toLocaleString()
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        button(onclick='del('+item.id+')') 删除
+                                        button(onclick='save('+item.id+')') 保存
+                                        button(onclick='save('+item.id+')') 下载
+                    div(align='right')
+                        input.file(name="slide" type="file")
+                        input.upload(type="button" value="上传")
+                        
+                div.item
+                    h1(id='视音频资料') 视音频资料
+                    table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                        thead
+                            tr
+                                th 文件名称
+                                th 文件大小
+                                th 上传时间
+                                th 学生端操作
+                                th 游客端操作
+                                th 操作
+                        tbody
+                            each item, index in media
+                                tr(class= (index%2==0)? 'light' : 'dark')
+                                    td= item.name
+                                    td #{item.size} bytes
+                                    td= item.upload_time.toLocaleString()
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        input(type="checkbox")
+                                    td
+                                        button(onclick='del('+item.id+')') 删除
+                                        button(onclick='save('+item.id+')') 保存
+                                        button(onclick='save('+item.id+')') 下载
+                    div(align='right')
+                        input.file(name="slide" type="file")
+                        input.upload(type="button" value="上传")
+            #column
+                .subnav(style='position: fixed;')
+                    h2 课件资料
+                    ul
+                        li
+                            a(href='#课件') 课件管理
+                        li
+                            a(href='#参考资料') 参考资料管理
+                        li
+                            a(href='#优秀作业') 优秀作业
+                        li
+                            a(href='#音视频资料') 视音频资料
+            .clear
+            <script src="/jquery-3.1.1.js"></script> 
+            script.
+                $('.item').each(function(i, e) {
+                    var upload = $(e).find('.upload');
+                    upload.click(function() {
+                        var fd = new FormData();    
+                        var file = $(e).find('.file')[0].files[0];
+                        if (!file) {
+                            alert('请选择文件');
+                            return;
+                        }
+                        fd.append('file', file);
+                        fd.append('type', i);
+                        $.ajax({
+                            url: '/teacher/courseResource/upload',
+                            data: fd,
+                            processData: false,
+                            contentType: false,
+                            type: 'POST',
+                            success: function(data){
+                                alert(data.msg);
+                                if (data.code == 1)
+                                    window.location.reload();
+                            }
+                        });
+                    })
+                });
+
+                function del(id) {
+                    if (window.confirm("确定要删除吗？")) {
+                        $.post('/teacher/courseResource/delete', {
+                            fileID: id
+                        }, function(data) {
+                            alert(data.msg);
+                            if (data.code == 1)
+                                window.location.reload();                                
+                        })
+                    }
+                }
+    include ../components/footer

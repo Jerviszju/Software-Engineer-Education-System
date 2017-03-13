@@ -1,0 +1,123 @@
+- var title = '教师介绍';
+- var navIndex = 2;
+
+doctype html
+include components/head
+style.
+    #content .item, .control {
+        margin: 10px 0 30px;
+    }
+    .edit, .save {
+        background-color: #293C6B;
+        color: white;
+    }
+    .save {
+        display: none;
+    }
+    .control button {
+        margin-right: 10px;
+    }
+    a:hover {
+        text-decoration: none!important;
+    }
+div
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content
+                div#intro.item
+                    h1(id="总体介绍") #{name}老师总体介绍
+                    div.data !{intro}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+                div#style.item
+                    h1(id="教学风格") 教学风格
+                    div.data !{style}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+                div#previous.item
+                    h1(id="以往教学") 以往教学
+                    div.data !{previous}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+                div#research.item
+                    h1(id="科研成果") 科研成果
+                    div.data !{research}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+                div#book.item
+                    h1(id="出版书籍") 出版书籍
+                    div.data !{book}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+                div#honor.item
+                    h1(id="所获荣誉") 所获荣誉
+                    div.data !{honor}
+                    div.control
+                        button.edit 编辑
+                        button.save 保存
+            #column
+                .subnav(style='position: fixed;')
+                    h2 课程介绍
+                    ul
+                        li
+                            a(href='#总体介绍') 总体介绍
+                        li
+                            a(href='#教学风格') 教学风格
+                        li
+                            a(href='#以往教学') 以往教学
+                        li
+                            a(href='#科研成果') 科研成果
+                        li
+                            a(href='#出版书籍') 出版书籍
+                        li
+                            a(href='#所获荣誉') 所获荣誉
+            .clear
+            <link href="/styles/bootstrap.css" rel="stylesheet">
+            <script src="/jquery-3.1.1.js"></script> 
+            <script src="/scripts/bootstrap.js"></script> 
+            <link href="/styles/summernote.css" rel="stylesheet">
+            <script src="/scripts/summernote.js"></script>
+            script.
+                $('.item').each(function(i, e) {
+                    var edit = $(e).find('.edit');
+                    var save = $(e).find('.save');
+                    var target = $(e).find('.data');
+                    edit.click(function() {
+                        target.summernote({
+                            focus: true,
+                            toolbar: [
+                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                                ['fontsize', ['fontsize']],
+                                ['color', ['color']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['insert', ['picture', 'link', 'table', 'hr']],
+                            ]
+                        });
+                        edit.hide();
+                        save.fadeIn();
+                    });
+                    save.click(function() {
+                        var content = target.summernote('code');
+                        $.post('/teacher/teacherIntroduction', {
+                            edit_id: i+1,
+                            content: content,
+                        }, function (data) {
+                            if(data.code == 1){
+                                alert(data.msg);
+                                target.summernote('destroy');
+                                edit.fadeIn();
+                                save.hide()
+                            }else{
+                                alert(data.msg);
+                            }
+                        })
+                    });
+                });
+    include ../components/footer

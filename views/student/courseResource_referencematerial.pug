@@ -1,0 +1,48 @@
+- var title = '课件资料';
+- var navIndex = 3;
+
+doctype html
+include components/head
+.container
+    include ../components/topbar
+    include components/nav
+    .wrapper.col3
+        #container
+            #content(style='height: 350px;')
+                h1 参考资料管理
+                table#table(summary='Summary Here', cellpadding='0', cellspacing='0')
+                    thead
+                        tr
+                            th 上传时间
+                            th 文件名称
+                            th 文件大小
+                            th 文件格式
+                            th 操作
+                    tbody
+                        - var i = 0
+                        each item in resources
+                            - if (i % 2 == 0)
+                                tr.light
+                            - else
+                                tr.dark
+                            td #{item.upload_time}
+                            td #{item.name}
+                            td #{item.size}
+                            td
+                                a(href='/student/view/' + item.id) 预览
+                                a(href='/student/download/' + item.id) 下载
+                            - i++
+            #column
+                .subnav(style='position: fixed;')
+                    h2 课件资料
+                    ul
+                        li
+                            a(href='courseResource') 课件管理
+                        li
+                            a(href='courseResource_referencematerial') 参考资料管理
+                        li
+                            a(href='courseResource_goodhomework') 优秀作业
+                        li
+                            a(href='courseResource_video') 视音频资料
+            .clear
+    include ../components/footer
